@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimoDataManager", "PrimoDataManager\PrimoDataManager.csproj", "{8CED5C4C-E08E-4E50-82EB-EF21D1410587}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PrimoData", "PrimoData\PrimoData.sqlproj", "{2C48116E-74E8-4210-BC27-C4E8AA076CB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimoDesktopUI", "PrimoDesktopUI\PrimoDesktopUI.csproj", "{0F7B217A-2D65-4338-98E4-FE8A44B52716}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,16 @@ Global
 		{8CED5C4C-E08E-4E50-82EB-EF21D1410587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CED5C4C-E08E-4E50-82EB-EF21D1410587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CED5C4C-E08E-4E50-82EB-EF21D1410587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C48116E-74E8-4210-BC27-C4E8AA076CB0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
