@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PrimoDesktopUI.Helpers;
+using PrimoDesktopUI.Library.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,26 +61,47 @@ namespace PrimoDesktopUI.ViewModels
                 return output;
             }
         }
-        //public bool CanLogIn(string userName, string password)
-        //{
-        //    bool output = false;
-        //    if(userName.Length > 0 && password.Length > 0)
-        //    {
-        //        output = true;
-        //    }
 
-        //    return output;
-        //}
+
+        public bool IsErrorVisible
+        {
+            get
+            {
+                bool output = false;
+                if(ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+                return output;
+            }
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+            }
+        }
+
+
 
         public async Task LogIn()
         {
             try
             {
+                ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(UserName, Password);
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ErrorMessage = ex.Message;
             }
 
         }

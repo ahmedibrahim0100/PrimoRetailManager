@@ -1,5 +1,7 @@
 ﻿using Caliburn.Micro;
 using PrimoDesktopUI.Helpers;
+using PrimoDesktopUI.Library.API;
+using PrimoDesktopUI.Library.Models;
 using PrimoDesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -31,6 +33,7 @@ namespace PrimoDesktopUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IAPIHelper, APIHelper>();
                 
             GetType().Assembly.GetTypes()

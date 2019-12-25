@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrimoDesktopUI.Models
+namespace PrimoDesktopUI.Library.Models
 {
     public class AuthenticatedUser
     {

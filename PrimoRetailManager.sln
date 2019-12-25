@@ -9,6 +9,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PrimoData", "PrimoData\Prim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimoDesktopUI", "PrimoDesktopUI\PrimoDesktopUI.csproj", "{0F7B217A-2D65-4338-98E4-FE8A44B52716}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimoDataManager.Library", "PrimoDataManager.Library\PrimoDataManager.Library.csproj", "{23603737-4C1E-4C1C-B9B3-E2AB66D9EDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimoDesktopUI.Library", "PrimoDesktopUI.Library\PrimoDesktopUI.Library.csproj", "{892F244C-50E2-4EAE-B0E3-7234F5FF5FEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F7B217A-2D65-4338-98E4-FE8A44B52716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23603737-4C1E-4C1C-B9B3-E2AB66D9EDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23603737-4C1E-4C1C-B9B3-E2AB66D9EDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23603737-4C1E-4C1C-B9B3-E2AB66D9EDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23603737-4C1E-4C1C-B9B3-E2AB66D9EDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{892F244C-50E2-4EAE-B0E3-7234F5FF5FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{892F244C-50E2-4EAE-B0E3-7234F5FF5FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{892F244C-50E2-4EAE-B0E3-7234F5FF5FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{892F244C-50E2-4EAE-B0E3-7234F5FF5FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
