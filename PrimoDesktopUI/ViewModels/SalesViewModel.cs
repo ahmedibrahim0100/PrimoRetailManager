@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PrimoDesktopUI.Library.API;
+using PrimoDesktopUI.Library.Helpers;
 using PrimoDesktopUI.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace PrimoDesktopUI.ViewModels
     public class SalesViewModel: Screen
     {
         IProductEndPoint _productEndPoint;
+        IConfigHelper _configHelper;
 
-        public SalesViewModel(IProductEndPoint productEndPoint)
+        public SalesViewModel(IProductEndPoint productEndPoint, IConfigHelper configHelper)
         {
             _productEndPoint = productEndPoint;
+            _configHelper = configHelper;
         }
 
         protected override async void OnViewLoaded (object view)
@@ -110,6 +113,8 @@ namespace PrimoDesktopUI.ViewModels
             SelectedProduct.QuantityInStock -= ItemQuantity;
             ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanRemoveFromCart
@@ -128,6 +133,9 @@ namespace PrimoDesktopUI.ViewModels
         {
 
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+
         }
 
         private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
@@ -147,13 +155,7 @@ namespace PrimoDesktopUI.ViewModels
             get
             {
                 //TODO - Replace with calculations
-                decimal subTotal = 0;
-                foreach (var item in Cart)
-                {
-                    subTotal += (item.Product.RetailPrice * item.QuantityInCart);
-                }
-
-                return subTotal.ToString("C");
+                return CalculateSubTotal().ToString("C");
             }
         }
 
@@ -162,8 +164,7 @@ namespace PrimoDesktopUI.ViewModels
             get
             {
                 //TODO - Replace with calculations
-
-                return "$0.00";
+                return CalculateTax().ToString("C");
             }
         }
 
@@ -172,8 +173,8 @@ namespace PrimoDesktopUI.ViewModels
             get
             {
                 //TODO - Replace with calculations
-
-                return "$0.00";
+                decimal total = CalculateSubTotal() + CalculateTax();
+                return total.ToString("C");
             }
         }
 
@@ -195,6 +196,30 @@ namespace PrimoDesktopUI.ViewModels
 
         }
 
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+            foreach (var item in Cart)
+            {
+                subTotal += (item.Product.RetailPrice * item.QuantityInCart);
+            }
 
+            return subTotal;
+        }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0;
+            decimal taxRate = _configHelper.GetTaxRate() / 100;
+
+            foreach (var item in Cart)
+            {
+                if (item.Product.IsTaxable)
+                {
+                    taxAmount += (item.Product.RetailPrice * item.QuantityInCart * taxRate);
+                }
+            }
+            return taxAmount;
+        }
     }
 }
