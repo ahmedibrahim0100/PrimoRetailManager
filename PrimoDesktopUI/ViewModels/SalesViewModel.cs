@@ -164,7 +164,7 @@ namespace PrimoDesktopUI.ViewModels
             get
             {
                 //TODO - Replace with calculations
-                return CalculateTax().ToString("C");
+                return CalculateTax().ToString();
             }
         }
 
@@ -174,7 +174,7 @@ namespace PrimoDesktopUI.ViewModels
             {
                 //TODO - Replace with calculations
                 decimal total = CalculateSubTotal() + CalculateTax();
-                return total.ToString("C");
+                return total.ToString();
             }
         }
 
