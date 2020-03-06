@@ -14,11 +14,13 @@ namespace PrimoDesktopUI.ViewModels
     public class SalesViewModel: Screen
     {
         IProductEndPoint _productEndPoint;
+        ISaleEndPoint _saleEndPoint;
         IConfigHelper _configHelper;
 
-        public SalesViewModel(IProductEndPoint productEndPoint, IConfigHelper configHelper)
+        public SalesViewModel(IProductEndPoint productEndPoint, ISaleEndPoint saleEndPoint, IConfigHelper configHelper)
         {
             _productEndPoint = productEndPoint;
+            _saleEndPoint = saleEndPoint;
             _configHelper = configHelper;
         }
 
@@ -115,6 +117,7 @@ namespace PrimoDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -135,7 +138,7 @@ namespace PrimoDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
-
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
@@ -186,14 +189,28 @@ namespace PrimoDesktopUI.ViewModels
                 bool output = false;
 
                 //Make sure there is something in the cart
+                if(Cart.Count > 0)
+                {
+                    output = true;
+                }
 
                 return output;
             }
         }
         
-        public void CheckOut()
+        public async Task CheckOut()
         {
-
+            //Create a sale model & post to the api
+            SaleModel sale = new SaleModel();
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
+            await _saleEndPoint.PostSale(sale);
         }
 
         private decimal CalculateSubTotal()

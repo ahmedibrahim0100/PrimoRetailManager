@@ -12,8 +12,8 @@ namespace PrimoDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName;
-        private string _password;
+        private string _userName = "ahmed@yahoo.com";
+        private string _password = "2@February1987";
         private IAPIHelper _apiHelper;
         private IEventAggregator _events;
 

@@ -16,5 +16,13 @@ namespace PrimoDataManager.Library.DataAccess
             var output = sql.LoadData<ProductModel, dynamic>("spProduct_GetAll", new { }, "PrimoData");
             return output;
         }
+
+        public ProductModel GetProductById(int productId)
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            var output = sql.LoadData<ProductModel, dynamic>("spProduct_GetById", new { Id = productId }, "PrimoData")
+                .FirstOrDefault();
+            return output;
+        }
     }
 }
