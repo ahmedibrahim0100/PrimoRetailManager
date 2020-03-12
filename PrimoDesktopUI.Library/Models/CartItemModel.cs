@@ -12,12 +12,17 @@ namespace PrimoDesktopUI.Library.Models
 
         public int QuantityInCart { get; set; }
 
-        public string DisplayText
-        {
-            get
-            {
-                return $"{Product.ProductName}({QuantityInCart})";
-            }
-        }
+
+
+        //No further need for this property (DisplayText) because we already now have a CartItemDisplayModel in 
+        //(cont.) PrimoDesktopUI.Models which has this property..
+
+        //public string DisplayText
+        //{
+        //    get
+        //    {
+        //        return $"{Product.ProductName}({QuantityInCart})";
+        //    }
+        //}
     }
 }

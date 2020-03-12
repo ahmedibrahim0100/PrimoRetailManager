@@ -1,8 +1,10 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using PrimoDesktopUI.Helpers;
 using PrimoDesktopUI.Library.API;
 using PrimoDesktopUI.Library.Helpers;
 using PrimoDesktopUI.Library.Models;
+using PrimoDesktopUI.Models;
 using PrimoDesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,8 @@ namespace PrimoDesktopUI
 
         protected override void Configure()
         {
+            _container.Instance(ConfigureAutoMapper());
+
             _container.Instance(_container)
                 .PerRequest<IProductEndPoint, ProductEndPoint>()
                 .PerRequest<ISaleEndPoint, SaleEndPoint>();
@@ -66,6 +70,19 @@ namespace PrimoDesktopUI
         protected override void BuildUp(object instance)
         {
             _container.BuildUp(instance);
+        }
+
+        private IMapper ConfigureAutoMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+            });
+
+            var output = config.CreateMapper();
+
+            return output;
         }
     }
 }
