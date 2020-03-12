@@ -87,5 +87,10 @@ namespace PrimoDesktopUI.Library.API
             }
 
         }
+
+        public void LogOffUser()
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
+        }
     }
 }

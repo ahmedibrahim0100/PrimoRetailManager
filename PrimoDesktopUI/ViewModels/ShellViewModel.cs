@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using PrimoDesktopUI.EventModels;
 using PrimoDesktopUI.Library.Models;
+using PrimoDesktopUI.Library.API;
 
 namespace PrimoDesktopUI.ViewModels
 {
@@ -14,12 +15,15 @@ namespace PrimoDesktopUI.ViewModels
         private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
         private IEventAggregator _events;
+        private IAPIHelper _apiHelper;
 
-        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user)
+        public ShellViewModel(IEventAggregator events, SalesViewModel salesVM, ILoggedInUserModel user, 
+            IAPIHelper apiHelper)
         {
             _salesVM = salesVM;
             _events = events;
             _user = user;
+            _apiHelper = apiHelper;
 
             _events.Subscribe(this);
 
@@ -48,7 +52,8 @@ namespace PrimoDesktopUI.ViewModels
 
         public void LogOut()
         {
-            _user.LogOffUser();
+            _user.ResetUserModel();
+            _apiHelper.LogOffUser();
             ActivateItem(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }

@@ -16,7 +16,7 @@ namespace PrimoDesktopUI.Library.Models
         public DateTime CreatedDate { get; set; }
 
         //It's not best practice to write functions here (in a model) but we will do it temporarily
-        public void LogOffUser()
+        public void ResetUserModel()
         {
             Token = "";
             Id = "";
