@@ -125,6 +125,21 @@ namespace PrimoDesktopUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+
+            //TODO - Add clearing the SelectedCartItem if it doesn't do it itself
+
+            await LoadProducts();
+
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
+
+
         private CartItemDisplayModel _selectedCartItem;
 
         public CartItemDisplayModel SelectedCartItem
@@ -146,7 +161,7 @@ namespace PrimoDesktopUI.ViewModels
                 bool output = false;
 
                 //Make sure something is selected
-                if (SelectedCartItem != null && SelectedCartItem?.Product.QuantityInStock > 0)
+                if (SelectedCartItem != null && SelectedCartItem?.QuantityInCart > 0)
                 {
                     output = true;
                 }
@@ -171,6 +186,7 @@ namespace PrimoDesktopUI.ViewModels
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => CanCheckOut);
+            NotifyOfPropertyChange(() => CanAddToCart);
         }
 
         private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
@@ -243,6 +259,7 @@ namespace PrimoDesktopUI.ViewModels
                 });
             }
             await _saleEndPoint.PostSale(sale);
+            await ResetSalesViewModel();
         }
 
         private decimal CalculateSubTotal()
