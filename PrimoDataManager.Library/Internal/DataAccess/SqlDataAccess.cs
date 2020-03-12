@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PrimoDataManager.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess
+    internal class SqlDataAccess : IDisposable
     {
         public string GetConnectionString(string name)
         {
@@ -37,6 +37,56 @@ namespace PrimoDataManager.Library.Internal.DataAccess
             {
                 connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
             }
+        }
+
+
+        //The next functions are for executing the following regarding SQL TRANSACTIONS using DAPPER
+        //1---- Open connection / Start transaction method
+        //2---- Load using the transaction
+        //3---- Save using the transaction
+        //4---- Close connection / Stop transaction method
+        //5---- Dispose
+
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
+
+        public void StartTransaction(string connectionStringName)
+        {
+            string connectionString = GetConnectionString(connectionStringName);
+            _connection = new SqlConnection(connectionString);
+            _connection.Open();
+            _transaction = _connection.BeginTransaction();
+        }
+
+        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
+        {
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters,
+                commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
+            return rows;
+        }
+
+        public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
+        {
+
+            _connection.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure,
+                transaction: _transaction);
+        }
+
+        public void CommitTransaction()
+        {
+            _transaction?.Commit();
+            _connection?.Close();
+        }
+
+        public void RollBackTransaction()
+        {
+            _transaction?.Rollback();
+            _connection?.Close();
+        }
+
+        public void Dispose()
+        {
+            CommitTransaction();
         }
     }
 }
