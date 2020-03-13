@@ -88,9 +88,17 @@ namespace PrimoDataManager.Library.DataAccess
                 catch
                 {
                     sql.RollBackTransaction();
-                    throw;
+                    throw;                                                   
                 }
             }
+        }
+
+        public List<SaleReportModel> GetSaleReport()
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "PrimoData");
+
+            return output;
         }
 
 
