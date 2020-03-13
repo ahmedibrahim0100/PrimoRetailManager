@@ -7,31 +7,60 @@ using PrimoDesktopUI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PrimoDesktopUI.ViewModels
 {
-    public class SalesViewModel: Screen
+    public class SalesViewModel : Screen
     {
         IProductEndPoint _productEndPoint;
         ISaleEndPoint _saleEndPoint;
         IConfigHelper _configHelper;
         IMapper _mapper;
+        StatusInfoViewModel _status;
+        IWindowManager _window;
 
-        public SalesViewModel(IProductEndPoint productEndPoint, ISaleEndPoint saleEndPoint, IConfigHelper configHelper, IMapper mapper)
+        public SalesViewModel(IProductEndPoint productEndPoint, ISaleEndPoint saleEndPoint, IConfigHelper configHelper, 
+            IMapper mapper, StatusInfoViewModel status, IWindowManager window)
         {
             _productEndPoint = productEndPoint;
             _saleEndPoint = saleEndPoint;
             _configHelper = configHelper;
             _mapper = mapper;
+            _status = status;
+            _window = window;
         }
 
-        protected override async void OnViewLoaded (object view)
+        protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            await LoadProducts();
+            try
+            {
+                await LoadProducts();
+
+            }
+            catch (Exception ex)
+            {
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+                if (ex.Message == "Unauthorized")
+                {
+                    _status.UpdateMessage("Unauthorized Access", "You don't have permission to proceed !!!");
+                    _window.ShowDialog(_status, null, settings);
+                }
+                else
+                {
+                    _status.UpdateMessage("Fatal Exception", ex.Message);
+                    _window.ShowDialog(_status, null, settings);
+                }
+                TryClose();
+            }
         }
 
         private async Task LoadProducts()
@@ -89,7 +118,7 @@ namespace PrimoDesktopUI.ViewModels
 
                 //Make sure something is selected
                 //Make sure there is an item quantity
-                if(ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
+                if (ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
                 {
                     output = true;
                 }
@@ -229,7 +258,7 @@ namespace PrimoDesktopUI.ViewModels
             }
         }
 
-  
+
         public bool CanCheckOut
         {
             get
@@ -237,7 +266,7 @@ namespace PrimoDesktopUI.ViewModels
                 bool output = false;
 
                 //Make sure there is something in the cart
-                if(Cart.Count > 0)
+                if (Cart.Count > 0)
                 {
                     output = true;
                 }
@@ -245,7 +274,7 @@ namespace PrimoDesktopUI.ViewModels
                 return output;
             }
         }
-        
+
         public async Task CheckOut()
         {
             //Create a sale model & post to the api
